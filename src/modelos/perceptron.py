@@ -33,7 +33,7 @@ class Perceptron:
 
         while erro and self.epoca < self.max_epochs:
             erro = False
-            erros_na_epoca = 0  # Contador de erros da época atual
+            erros_na_epoca = 0  
             
             for k in range(N):
                 x_k = X_biased[:, k].reshape(p + 1, 1)
