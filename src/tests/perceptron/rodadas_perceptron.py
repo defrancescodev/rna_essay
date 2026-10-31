@@ -144,3 +144,58 @@ for nome in nomes_metricas:
     
     plt.tight_layout()
     plt.show()
+
+    import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+resultados_modelos = {
+    "Perceptron Simples": historico_metricas,  
+}
+
+nomes_metricas = ["Acurácia", "Sensibilidade", "Especificidade", "Precisão", "F1-Score"]
+
+
+for metrica in nomes_metricas:
+    print(f"\nTabela - Métrica: {metrica.upper()}")
+    print("-" * 88)
+    print(f"| {'Modelos':<32} | {'Média':^10} | {'Desvio-Padrão':^13} | {'Maior Valor':^11} | {'Menor Valor':^11} |")
+    print("-" * 88)
+    
+    for nome_modelo, metricas_dict in resultados_modelos.items():
+        valores = np.array(metricas_dict[metrica])
+        media = np.mean(valores)
+        desvio = np.std(valores)
+        maior = np.max(valores)
+        menor = np.min(valores)
+        
+        print(f"| {nome_modelo:<32} | {media:^10.4f} | {desvio:^13.4f} | {maior:^11.4f} | {menor:^11.4f} |")
+    print("-" * 88)
+
+
+fig, eixos = plt.subplots(2, 5, figsize=(20, 8))
+fig.suptitle("Distribuição das Métricas nas 500 Rodadas (Boxplot e Violin Plot)", fontsize=14, fontweight="bold")
+
+for i, metrica in enumerate(nomes_metricas):
+    dados_plot = [resultados_modelos[m][metrica] for m in resultados_modelos.keys()]
+    nomes_mod = list(resultados_modelos.keys())
+    
+    
+    sns.boxplot(data=dados_plot, ax=eixos[0, i], palette="Set2")
+    eixos[0, i].set_title(f"Boxplot - {metrica}")
+    eixos[0, i].set_xticks(range(len(nomes_mod)))
+    eixos[0, i].set_xticklabels(nomes_mod, rotation=15)
+    eixos[0, i].set_ylim(-0.05, 1.05)
+    eixos[0, i].grid(True, linestyle="--", alpha=0.5)
+    
+   
+    sns.violinplot(data=dados_plot, ax=eixos[1, i], palette="Pastel1", inner="quartile")
+    eixos[1, i].set_title(f"Violin Plot - {metrica}")
+    eixos[1, i].set_xticks(range(len(nomes_mod)))
+    eixos[1, i].set_xticklabels(nomes_mod, rotation=15)
+    eixos[1, i].set_ylim(-0.05, 1.05)
+    eixos[1, i].grid(True, linestyle="--", alpha=0.5)
+
+plt.tight_layout()
+plt.show()
