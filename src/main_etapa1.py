@@ -65,7 +65,7 @@ def main():
     dados = np.loadtxt(caminho_dados, delimiter=",")
     X, d = dados[:, :2], dados[:, 2].reshape(-1, 1)
     
-    R = 500  # Já definido para as 500 rodadas finais
+    R = 500  # definido para as 500 rodadas finais
     print(f"Iniciando {R} rodadas de Monte Carlo. Aguarde...")
 
     # Inicialização das estruturas para guardar resultados
